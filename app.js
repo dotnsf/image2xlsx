@@ -13,7 +13,7 @@ var default_width = 'DEFAULT_WIDTH' in process.env ? parseInt( process.env.DEFAU
 
 app.use( express.static( __dirname + '/public/_doc' ) );
 app.use( bodyParser.urlencoded( { extended: true } ) );
-app.use( bodyParser.json() );
+app.use( bodyParser.json( { limit: '10mb' } ) );
 app.use( express.Router() );
 app.use( multer( { dest: './tmp/' } ).single( 'file' ) );
 
