@@ -22,6 +22,10 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
+        - name: px
+          in: formData
+          type: number
+          description: 出力時の１つのセルの大きさ（単位：ピクセル　無指定の場合は2）
         - name: width
           in: formData
           type: number

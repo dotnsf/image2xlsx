@@ -7,6 +7,10 @@ var express = require( 'express' ),
     XLSX = require( 'xlsx-js-style' ),
     app = express();
 
+require( 'dotenv' ).config();
+var default_px = 'DEFAULT_PX' in process.env ? parseInt( process.env.DEFAULT_PX ) : 2;
+var default_width = 'DEFAULT_WIDTH' in process.env ? parseInt( process.env.DEFAULT_WIDTH ) : 100;
+
 app.use( express.static( __dirname + '/public/_doc' ) );
 app.use( bodyParser.urlencoded( { extended: true } ) );
 app.use( bodyParser.json() );
@@ -69,7 +73,7 @@ app.post( '/image', function( req, res ){
     var width = req.body.width ? parseInt( req.body.width ) : -1;
     var height = req.body.height ? parseInt( req.body.height ) : -1;
     if( width < 0 && height < 0 ){
-      width = 100;  //. サイズの指定が何もない場合、幅100とする
+      width = default_width;  //. サイズの指定が何もない場合、幅100とする
       height = width * img.height / img.width;
     }else if( width < 0 ){
       width = height * img.width / img.height;
@@ -93,7 +97,7 @@ app.post( '/image', function( req, res ){
     var ws = XLSX.utils.aoa_to_sheet([row]);
 
     //. 必要なセルの行数と列数ぶんだけ、幅と高さを指定する
-    var px = 2;  //. ２ピクセルずつ
+    var px = req.body.px ? parseInt( req.body.px ) : default_px;
     var wscols = [];
     for( var x = 0; x < imagedata.width; x ++ ){
       wscols.push( { wpx: px } );
