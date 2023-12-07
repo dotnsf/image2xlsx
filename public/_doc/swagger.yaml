@@ -1,0 +1,42 @@
+swagger: '2.0'
+info:
+  description: IMAGE2XLSX API ドキュメント
+  version: 0.0.1
+  title: IMAGE2XLSX REST APIs
+#basePath: /
+tags:
+  - name: image2xlsx
+    description: IMAGE2XLSX API
+schemes:
+  - http
+  - https
+paths:
+  /image:
+    post:
+      tags:
+        - image2xlsx
+      summary: Image to Excel
+      description: Image to Excel API
+      produces:
+        - application/vnd.ms-excel
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: width
+          in: formData
+          type: number
+          description: 出力時の幅（単位：ピクセル　無指定時は高さに併せてリサイズ　高さも無指定の場合は100）
+        - name: height
+          in: formData
+          type: number
+          description: 出力時の高さ（単位：ピクセル　無指定時は幅に併せてリサイズ）
+        - name: file
+          in: formData
+          type: file
+          description: 画像ファイル
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
